@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flavor Fork — Home</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+/* ── HOME-SPECIFIC ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+.hero-bg { position: absolute; inset: 0; background: #100d09; }
+.hero-bg img { width:100%; height:100%; object-fit:cover; opacity:0.58; }
+.hero-body {
+  position: relative; z-index: 2;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 120px 5% 60px;
+}
+.hero-title {
+  font-size: clamp(2.8rem, 7.5vw, 5.2rem);
+  font-weight: 800; color: var(--white); line-height: 1.08;
+  letter-spacing: -0.025em; margin-bottom: 18px;
+  opacity: 0; animation: fadeUp 0.85s ease 0.3s forwards;
+}
+.hero-sub {
+  font-family: 'Lora', serif; color: rgba(255,255,255,0.78);
+  font-size: 1.05rem; line-height: 1.7; max-width: 500px;
+  margin: 0 auto 14px;
+  opacity: 0; animation: fadeUp 0.85s ease 0.5s forwards;
+}
+.hero-scroll-hint {
+  font-family: 'Poppins', sans-serif; font-size: 0.65rem;
+  letter-spacing: 0.18em; color: rgba(255,255,255,0.45);
+  margin-bottom: 28px;
+  opacity: 0; animation: fadeIn 1s ease 0.7s forwards;
+}
+.hero-btns {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+  opacity: 0; animation: fadeUp 0.85s ease 0.7s forwards;
+}
+.hero-scroll-line {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding-bottom: 30px;
+  color: rgba(255,255,255,0.4); font-family: 'Poppins', sans-serif;
+  font-size: 0.62rem; letter-spacing: 0.18em;
+}
+.hero-scroll-line::before {
+  content: ''; width: 1px; height: 38px;
+  background: rgba(255,255,255,0.28);
+}
+
+/* ── FAN FAVORITES ── */
+.section { padding: 80px 40px; }
+.section-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 36px; flex-wrap: wrap; gap: 14px;
+}
+.view-all-link {
+  font-family: 'Poppins', sans-serif; font-size: 0.82rem; font-weight: 600;
+  color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 5px;
+  transition: var(--tr);
+}
+.view-all-link:hover { gap: 9px; }
+.fav-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.fav-card .food-card-thumb { height: 178px; }
+
+/* ── STATS STRIP ── */
+.stats-strip {
+  background: var(--white);
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--cream-dark);
+  border-bottom: 1px solid var(--cream-dark);
+}
+.stat-item {
+  padding: 32px 20px; text-align: center;
+  border-right: 1px solid var(--cream-dark);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 800;
+  color: var(--gold); line-height: 1;
+}
+.stat-lbl { font-size: 0.8rem; color: var(--charcoal-light); font-family: 'Poppins', sans-serif; margin-top: 4px; }
+
+/* ── STORY TEASER ── */
+.story-teaser {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; background: var(--cream-dark);
+}
+.story-teaser-img { height: 380px; overflow: hidden; background: #d4c9b8; }
+.story-teaser-img img { width:100%; height:100%; object-fit:cover; }
+.story-teaser-text {
+  padding: 64px 56px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.story-teaser-text p { font-size: 0.93rem; line-height: 1.75; color: var(--charcoal-mid); margin-bottom: 24px; }
+
+/* ── SPECIALS TEASER ── */
+.specials-teaser { padding: 80px 40px; background: var(--cream); }
+.specials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 18px; margin-top: 36px;
+}
+.special-card {
+  border-radius: var(--radius-lg); overflow: hidden;
+  position: relative; height: 280px; cursor: pointer;
+}
+.special-card-bg { position: absolute; inset: 0; background: #1a1410; }
+.special-card-bg img { width:100%; height:100%; object-fit:cover; opacity:0.65; transition: transform 0.4s ease, opacity 0.3s ease; }
+.special-card:hover .special-card-bg img { transform: scale(1.06); opacity: 0.5; }
+.special-card-body {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 24px;
+}
+.special-card-label { font-family: 'Poppins', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; color: var(--gold-light); text-transform: uppercase; margin-bottom: 6px; }
+.special-card-name { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.special-card-price { font-family: 'Poppins', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+
+/* ── CTA ── */
+.home-cta {
+  margin: 0 40px 80px;
+  background: var(--charcoal);
+  border-radius: var(--radius-lg);
+  padding: 56px 64px;
+  display: flex; align-items: center; justify-content: space-between; gap: 32px;
+  flex-wrap: wrap; position: relative; overflow: hidden;
+}
+.home-cta::before {
+  content: ''; position: absolute; top: -80px; right: -80px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(184,147,63,0.2), transparent 70%);
+}
+.home-cta h2 { font-size: clamp(1.3rem,2.5vw,1.9rem); color: var(--white); font-weight: 700; margin-bottom: 8px; }
+.home-cta p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; max-width: 420px; }
+
+@media (max-width: 900px) {
+  .fav-grid { grid-template-columns: repeat(2,1fr); }
+  .specials-grid { grid-template-columns: 1fr; }
+  .story-teaser { grid-template-columns: 1fr; }
+  .story-teaser-img { height: 240px; }
+  .story-teaser-text { padding: 36px 28px; }
+  .section { padding: 56px 20px; }
+  .home-cta { margin: 0 20px 60px; padding: 36px 28px; }
+}
+@media (max-width: 580px) {
+  .fav-grid { grid-template-columns: 1fr; }
+  .stats-strip { grid-template-columns: 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--cream-dark); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark">
+      <!-- Your logo image -->
+      <img src="" alt="Logo" onerror="this.style.display='none';this.parentElement.innerHTML='🍴';" />
+    </div>
+    <span class="nav-logo-name">Flavor Fork</span>
+  </a>
+  <ul class="nav-links">
+    <li><a class="nav-link active" href="index.html">Home</a></li>
+    <li><a class="nav-link" href="menu.html">Menu</a></li>
+    <li><a class="nav-link" href="order.html">Order</a></li>
+    <li><a class="nav-link" href="reviews.html">Reviews</a></li>
+    <li><a class="nav-link" href="about.html">About</a></li>
+    <li><a class="nav-link" href="contact.html">Contact</a></li>
+  </ul>
+  <a class="btn-order-now" href="order.html">🛍 Order Now</a>
+  <button class="hamburger" onclick="document.getElementById('mobileNav').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a class="nav-link active" href="index.html">Home</a>
+  <a class="nav-link" href="menu.html">Menu</a>
+  <a class="nav-link" href="order.html">Order</a>
+  <a class="nav-link" href="reviews.html">Reviews</a>
+  <a class="nav-link" href="about.html">About</a>
+  <a class="nav-link" href="contact.html">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <!-- YOUR HERO IMAGE: high-res restaurant interior with warm lighting -->
+    <img src="images/flavour.jpg" alt="flavour" />
+  </div>
+  <div class="hero-body">
+    <h1 class="hero-title">Where Every Bite<br>Tells a Story</h1>
+    <p class="hero-sub">Fresh seasonal ingredients, crafted with love. Dine in, pick up, or get it delivered — your way.</p>
+    <p class="hero-scroll-hint">SCROLL</p>
+    <div class="hero-btns">
+      <a class="btn btn-outline-white" href="menu.html">🍽 Browse Menu</a>
+      <a class="btn btn-gold" href="order.html">🛍 Order Now</a>
+    </div>
+  </div>
+  <div class="hero-scroll-line">SCROLL</div>
+</section>
+
+<!-- FAN FAVORITES -->
+<section class="section" style="background:var(--cream);">
+  <div class="section-header">
+    <div>
+      <p class="sec-label">Most Loved</p>
+      <h2 class="sec-title">Fan Favorites</h2>
+    </div>
+    <a class="view-all-link" href="menu.html">View Full Menu →</a>
+  </div>
+  <div class="fav-grid" id="favGrid"></div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num">8+</div>
+    <div class="stat-lbl">Years of Service</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">1,200+</div>
+    <div class="stat-lbl">Happy Guests</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">4.8★</div>
+    <div class="stat-lbl">Average Rating</div>
+  </div>
+</div>
+
+<!-- STORY TEASER -->
+<div class="story-teaser">
+  <div class="story-teaser-img">
+    <!-- YOUR IMAGE: cozy restaurant interior or chef cooking -->
+    <img src="images/tradition.jpg" alt="tradition" />
+  </div>
+  <div class="story-teaser-text">
+    <p class="sec-label">Our Story</p>
+    <h2 class="sec-title" style="margin-bottom:18px;">Where Tradition Meets Modern Culinary Art</h2>
+    <p>Flavor Fork was born from a simple belief: that great food has the power to bring people together. Founded in 2026 in the heart of Brooklyn, we set out to create a space where seasonal ingredients, culinary craftsmanship, and genuine hospitality could coexist beautifully.</p>
+    <a class="btn btn-dark" href="about.html">Our Story →</a>
+  </div>
+</div>
+
+<!-- SEASONAL SPECIALS TEASER -->
+<section class="specials-teaser">
+  <p class="sec-label">Spring 2026</p>
+  <h2 class="sec-title">Seasonal Specials</h2>
+  <div class="specials-grid" id="specialsGrid"></div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="home-cta">
+  <div>
+    <h2>Ready to experience Flavor Fork?</h2>
+    <p>Order online for pickup or delivery, or visit us at 128 Harvest Lane, Brooklyn, NY 11201.</p>
+  </div>
+  <a class="btn btn-gold" href="order.html" style="flex-shrink:0;">🛍 Order Now</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Flavor <span>Fork</span></div>
+      <p class="footer-tagline">Good food, good mood — at Flavor Fork. Seasonal ingredients, culinary craftsmanship, and genuine Brooklyn hospitality since 2018.</p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#">📸</a>
+        <a class="social-btn" href="#">👍</a>
+        <a class="social-btn" href="#">🐦</a>
+        <a class="social-btn" href="#">🎵</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Explore</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Our Menu</a></li>
+        <li><a href="order.html">Order Online</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Hours</div>
+      <ul>
+        <li><a href="#">Mon–Thu: 11am–9pm</a></li>
+        <li><a href="#">Fri–Sat: 11am–10pm</a></li>
+        <li><a href="#">Sunday: 12pm–8pm</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Contact</div>
+      <ul>
+        <li><a href="#">128 Harvest Lane, Brooklyn NY 11201</a></li>
+        <li><a href="tel:08089994227">(+234) 8089994227</a></li>
+        <li><a href="gmail:sokanmbig@gmail.com">sokanmbig@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Flavor Fork. All rights reserved.</p>
+    <p style="color:rgba(255,255,255,0.35);">Crafted with ❤️ in lagos</p>
+  </div>
+</footer>
+
+<script>
+const MENU = [
+  {id:1,name:'Truffle Arancini',cat:'Appetizers',price:14,desc:'Crispy risotto balls filled with black truffle and fontina cheese, served with roasted tomato aioli.',rating:4.4,reviews:124,tags:['v'],img:'images/truffle.jpg'},
+  {id:2,name:'Burrata & Heirloom Tomato',cat:'Seasonal Specials',price:16,desc:'Creamy burrata with seasonal heirloom tomatoes, fresh basil oil, and aged balsamic glaze.',rating:4.5,reviews:98,tags:['v','s','gf'],img:'images/burrata.jpg'},
+  {id:3,name:'Seared Scallops',cat:'Appetizers',price:19,desc:'Pan-seared diver scallops with cauliflower purée, crispy capers, and lemon brown butter.',rating:4.3,reviews:76,tags:['gf'],img:'images/seared.jpg'},
+  {id:4,name:'Mushroom Crostini',cat:'Appetizers',price:12,desc:'Wild mushroom medley on toasted sourdough with whipped ricotta, thyme, and truffle oil.',rating:4.2,reviews:55,tags:['v'],img:'images/costini.jpg'},
+  {id:5,name:'Braised Short Rib',cat:'Main Courses',price:38,desc:'Slow-braised beef short rib with creamy polenta, roasted root vegetables, and red wine jus.',rating:4.7,reviews:203,tags:['gf'],img:'images/short.jpg'},
+  {id:6,name:'Pan-Roasted Salmon',cat:'Main Courses',price:34,desc:'Atlantic salmon with spring pea risotto, asparagus, and lemon herb beurre blanc.',rating:4.5,reviews:167,tags:['gf','s'],img:'images/salmon.jpg'},
+  {id:7,name:'Wild Mushroom Risotto',cat:'Main Courses',price:28,desc:'Arborio rice with porcini, shiitake, and oyster mushrooms, finished with aged parmesan and truffle oil.',rating:4.4,reviews:142,tags:['v','gf'],img:'images/wild.jpg'},
+  {id:8,name:'Herb-Crusted Lamb Rack',cat:'Seasonal Specials',price:44,desc:'New Zealand lamb rack with rosemary-dijon crust, roasted garlic mash, and mint chimichurri.',rating:4.6,reviews:89,tags:['gf','s'],img:'images/lamb.jpg'},
+  {id:9,name:'Roasted Chicken',cat:'Main Courses',price:32,desc:'Free-range half chicken with preserved lemon, olives, crispy potatoes, and herb jus.',rating:4.4,reviews:115,tags:['gf'],img:'images/chicken.jpg'},
+  {id:10,name:'Chocolate Lava Cake',cat:'Desserts',price:13,desc:'Warm dark chocolate fondant with a molten center, served with vanilla bean ice cream.',rating:4.8,reviews:187,tags:[],img:'images/chocolate.jpg'},
+  {id:11,name:'Seasonal Fruit Tart',cat:'Desserts',price:11,desc:'Buttery pastry shell with vanilla custard cream and fresh seasonal fruits from local farms.',rating:4.5,reviews:92,tags:['v','s'],img:'images/fruit.jpg'},
+];
+function starsHtml(r){let s='';for(let i=1;i<=5;i++)s+=i<=Math.floor(r)?'★':(i-r<1?'½':'☆');return s;}
+function badgeHtml(tags){return tags.map(t=>t==='v'?'<span class="badge badge-v">V</span>':t==='gf'?'<span class="badge badge-gf">GF</span>':'<span class="badge badge-s">Seasonal</span>').join('');}
+function buildFavGrid(){
+  const favs=[...MENU].sort((a,b)=>b.rating-a.rating).slice(0,4);
+  document.getElementById('favGrid').innerHTML=favs.map(i=>`
+    <div class="food-card">
+      <div class="food-card-thumb" style="height:178px;">
+        <img src="${i.img}" alt="${i.name}" onerror="this.parentElement.style.background='var(--cream-dark)';this.style.display='none';"/>
+        <div class="food-card-badges">${badgeHtml(i.tags)}</div>
+        <div class="food-card-price">$${i.price}</div>
+      </div>
+      <div class="food-card-body">
+        <div class="food-card-name">${i.name}</div>
+        <div class="food-card-desc">${i.desc}</div>
+        <div class="food-card-foot">
+          <div class="stars">${starsHtml(i.rating)} <span>(${i.reviews})</span></div>
+          <a class="link-order" href="order.html">Order →</a>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function buildSpecials(){
+  const sp=MENU.filter(i=>i.tags.includes('s')).slice(0,3);
+  document.getElementById('specialsGrid').innerHTML=sp.map(i=>`
+    <div class="special-card">
+      <div class="special-card-bg">
+        <img src="${i.img}" alt="${i.name}" onerror="this.style.display='none';this.parentElement.style.background='#3a2e24';" />
+      </div>
+      <div class="special-card-body">
+        <div class="special-card-label">Seasonal Special</div>
+        <div class="special-card-name">${i.name}</div>
+        <div class="special-card-price">$${i.price}</div>
+      </div>
+    </div>`).join('');
+}
+buildFavGrid(); buildSpecials();
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>20));
+</script>
+</body>
+</html>

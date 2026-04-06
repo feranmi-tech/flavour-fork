@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Flavor Fork — Reviews</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ── REVIEWS PAGE ── */
+.reviews-summary {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: 0; margin: 32px 40px;
+  background: var(--white); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.rating-big-side {
+  background: var(--cream); padding: 40px 24px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-right: 1px solid var(--cream-dark);
+}
+.big-number {
+  font-family: 'Poppins', sans-serif; font-size: 3.8rem; font-weight: 800;
+  color: var(--charcoal); line-height: 1;
+}
+.big-stars { font-size: 1.3rem; color: var(--gold); margin: 8px 0; }
+.big-count { font-family: 'Poppins', sans-serif; font-size: 0.78rem; color: var(--charcoal-light); }
+.breakdown-side { padding: 32px 36px; }
+.breakdown-side h3 { font-size: 1rem; font-weight: 700; margin-bottom: 18px; }
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.bar-num { font-family: 'Poppins', sans-serif; font-size: 0.78rem; color: var(--charcoal-mid); width: 10px; text-align: right; }
+.bar-star-ico { color: var(--gold); font-size: 0.75rem; }
+.bar-track { flex: 1; height: 8px; background: var(--cream-dark); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--gold); border-radius: 4px; }
+.bar-count { font-family: 'Poppins', sans-serif; font-size: 0.76rem; color: var(--charcoal-light); width: 14px; }
+
+/* ── REVIEWS LAYOUT ── */
+.reviews-body {
+  display: grid; grid-template-columns: 1fr 340px;
+  gap: 20px; padding: 0 40px 80px; align-items: start;
+}
+.reviews-list { display: flex; flex-direction: column; gap: 14px; }
+.review-card {
+  background: var(--white); border-radius: var(--radius-lg);
+  padding: 24px; box-shadow: var(--shadow);
+}
+.review-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 4px; }
+.reviewer-block { display: flex; align-items: center; gap: 12px; }
+.reviewer-avatar {
+  width: 44px; height: 44px; border-radius: 50%; overflow: hidden;
+  background: var(--cream-dark); flex-shrink: 0;
+}
+.reviewer-avatar img { width:100%; height:100%; object-fit:cover; }
+.reviewer-avatar-fallback {
+  width: 100%; height: 100%; background: var(--gold-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--gold);
+}
+.reviewer-name-row { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 8px; }
+.verified-tag {
+  background: #dcfce7; color: #16a34a;
+  font-size: 0.62rem; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+.review-date { font-family: 'Poppins', sans-serif; font-size: 0.73rem; color: var(--charcoal-light); }
+.review-dish { color: var(--gold); font-family: 'Poppins', sans-serif; font-size: 0.76rem; font-weight: 600; margin-bottom: 8px; }
+.review-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 10px; }
+.review-text { font-size: 0.86rem; line-height: 1.68; color: var(--charcoal-mid); }
+.review-helpful { margin-top: 12px; font-family: 'Poppins', sans-serif; font-size: 0.73rem; color: var(--charcoal-light); }
+
+/* ── REVIEW FORM ── */
+.review-form-card {
+  background: var(--white); border-radius: var(--radius-lg);
+  padding: 28px; box-shadow: var(--shadow);
+  position: sticky; top: 80px;
+}
+.review-form-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 18px; }
+.star-input { display: flex; gap: 5px; margin-bottom: 16px; }
+.star-btn {
+  font-size: 1.5rem; background: none; border: none; cursor: pointer;
+  color: #DDD; transition: color 0.12s;
+}
+.star-btn.lit { color: var(--gold); }
+.form-group { margin-bottom: 12px; }
+
+.toast{position:fixed;bottom:28px;right:28px;z-index:9999;background:var(--charcoal);color:#fff;padding:12px 22px;border-radius:30px;font-size:0.82rem;font-family:'Poppins',sans-serif;box-shadow:var(--shadow-lg);opacity:0;transform:translateY(14px);transition:all .3s ease;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+@media (max-width: 900px) {
+  .reviews-summary { grid-template-columns: 1fr; margin: 24px 20px; }
+  .rating-big-side { border-right: none; border-bottom: 1px solid var(--cream-dark); flex-direction: row; gap: 20px; padding: 24px; }
+  .reviews-body { grid-template-columns: 1fr; padding: 0 20px 60px; }
+  .review-form-card { position: static; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark"><img src="" alt="Logo" onerror="this.style.display='none';this.parentElement.innerHTML='🍴';"/></div>
+    <span class="nav-logo-name">Flavor Fork</span>
+  </a>
+  <ul class="nav-links">
+    <li><a class="nav-link" href="index.html">Home</a></li>
+    <li><a class="nav-link" href="menu.html">Menu</a></li>
+    <li><a class="nav-link" href="order.html">Order</a></li>
+    <li><a class="nav-link active" href="reviews.html">Reviews</a></li>
+    <li><a class="nav-link" href="about.html">About</a></li>
+    <li><a class="nav-link" href="contact.html">Contact</a></li>
+  </ul>
+  <a class="btn-order-now" href="order.html">🛍 Order Now</a>
+  <button class="hamburger" onclick="document.getElementById('mn').classList.toggle('open')"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-nav" id="mn">
+  <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="menu.html">Menu</a>
+  <a class="nav-link" href="order.html">Order</a><a class="nav-link active" href="reviews.html">Reviews</a>
+  <a class="nav-link" href="about.html">About</a><a class="nav-link" href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div style="padding-top:64px;">
+  <div class="page-hero" style="height:210px;">
+    <div class="page-hero-bg">
+      <!-- YOUR IMAGE: warm restaurant/guests dining atmosphere -->
+      <img src="images/guest.jpg" alt="guest" />
+    </div>
+    <div class="page-hero-inner">
+      <p class="page-hero-label">Guest Stories</p>
+      <h1 class="page-hero-title">Reviews</h1>
+    </div>
+  </div>
+</div>
+
+<!-- RATING SUMMARY -->
+<div class="reviews-summary">
+  <div class="rating-big-side">
+    <div class="big-number">4.7</div>
+    <div class="big-stars">★★★★½</div>
+    <div class="big-count" id="reviewCount">10 reviews</div>
+  </div>
+  <div class="breakdown-side">
+    <h3>Rating Breakdown</h3>
+    <div class="bar-row"><span class="bar-num">5</span><span class="bar-star-ico">★</span><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><span class="bar-count">7</span></div>
+    <div class="bar-row"><span class="bar-num">4</span><span class="bar-star-ico">★</span><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div><span class="bar-count">3</span></div>
+    <div class="bar-row"><span class="bar-num">3</span><span class="bar-star-ico">★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-count">0</span></div>
+    <div class="bar-row"><span class="bar-num">2</span><span class="bar-star-ico">★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-count">0</span></div>
+    <div class="bar-row"><span class="bar-num">1</span><span class="bar-star-ico">★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-count">0</span></div>
+  </div>
+</div>
+
+<!-- REVIEWS BODY -->
+<div class="reviews-body">
+  <div class="reviews-list" id="reviewsList"></div>
+
+  <!-- REVIEW FORM -->
+  <div class="review-form-card">
+    <h3>Leave a Review</h3>
+    <div class="form-label">Your Rating</div>
+    <div class="star-input" id="starInput">
+      <button class="star-btn" data-v="1">★</button>
+      <button class="star-btn" data-v="2">★</button>
+      <button class="star-btn" data-v="3">★</button>
+      <button class="star-btn" data-v="4">★</button>
+      <button class="star-btn" data-v="5">★</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your Name</label>
+      <input class="form-input" type="text" id="rName" placeholder="Jane Doe"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Dish Name</label>
+      <input class="form-input" type="text" id="rDish" placeholder="e.g. Braised Short Rib"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your Review</label>
+      <textarea class="form-textarea" id="rText" rows="4" maxlength="500" placeholder="Tell us about your experience..." oninput="document.getElementById('rc').textContent=this.value.length+'/500'"></textarea>
+      <div class="char-count" id="rc">0/500</div>
+    </div>
+    <button class="btn-submit" onclick="submitReview()">Submit Review</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Flavor <span>Fork</span></div>
+      <p class="footer-tagline">Good food, good mood — at Flavor Fork. Seasonal ingredients, culinary craftsmanship, and genuine Brooklyn hospitality since 2018.</p>
+      <div class="footer-socials"><a class="social-btn" href="#">📸</a><a class="social-btn" href="#">👍</a><a class="social-btn" href="#">🐦</a><a class="social-btn" href="#">🎵</a></div>
+    </div>
+    <div class="footer-col"><div class="footer-col-title">Explore</div><ul>
+      <li><a href="index.html">Home</a></li><li><a href="menu.html">Our Menu</a></li>
+      <li><a href="order.html">Order Online</a></li><li><a href="reviews.html">Reviews</a></li>
+      <li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li>
+    </ul></div>
+    <div class="footer-col"><div class="footer-col-title">Hours</div><ul>
+      <li><a href="#">Mon–Thu: 11am–9pm</a></li><li><a href="#">Fri–Sat: 11am–10pm</a></li><li><a href="#">Sunday: 12pm–8pm</a></li>
+    </ul></div>
+    <div class="footer-col"><div class="footer-col-title">Contact</div><ul>
+      <li><a href="#">128 Harvest Lane, Brooklyn NY 11201</a></li>
+      <li><a href="tel:7185550192">(718) 555-0192</a></li>
+      <li><a href="mailto:hello@flavorfork.com">hello@flavorfork.com</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Flavor Fork. All rights reserved.</p>
+    <p style="color:rgba(255,255,255,0.35);">Crafted with ❤️ in Brooklyn</p>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+let reviewRating=0;
+let reviews=[
+  {name:'Sarah Mitchell',dish:'Braised Short Rib',rating:5,text:'Absolutely incredible! The short rib was fall-off-the-bone tender and the polenta was silky smooth. This is hands down the best dish I\'ve had in years. The red wine jus tied everything together perfectly. Will be back every week!',date:'Mar 28, 2026',helpful:42,initials:'SM'},
+  {name:'James Thornton',dish:"Chef's Tasting Menu",rating:5,text:'Took my wife here for our anniversary and it was a magical evening. Every course was a masterpiece. Chef Marco clearly has a passion for seasonal ingredients. The wine pairings were spot on. Worth every penny!',date:'Mar 25, 2026',helpful:38,initials:'JT'},
+  {name:'Priya Sharma',dish:'Wild Mushroom Risotto',rating:4,text:'The risotto was beautifully cooked — perfectly al dente with layers of earthy mushroom flavor. The truffle oil wasn\'t overpowering which I appreciated. Lovely atmosphere and attentive service too.',date:'Mar 22, 2026',helpful:21,initials:'PS'},
+  {name:'Carlos Mendez',dish:'Seared Scallops',rating:5,text:'Those scallops! Golden sear, perfectly cooked center. The cauliflower purée was silky and the lemon butter was the star of the show. Will definitely order again. The staff were warm and welcoming too.',date:'Mar 18, 2026',helpful:15,initials:'CM'},
+];
+
+function starsStr(r){return '★'.repeat(r)+'☆'.repeat(5-r);}
+function renderReviews(){
+  document.getElementById('reviewsList').innerHTML=reviews.map(r=>`
+    <div class="review-card">
+      <div class="review-top">
+        <div class="reviewer-block">
+          <div class="reviewer-avatar">
+            <div class="reviewer-avatar-fallback">${r.initials}</div>
+          </div>
+          <div>
+            <div class="reviewer-name-row">${r.name} <span class="verified-tag">Verified</span></div>
+          </div>
+        </div>
+        <div class="review-date">${r.date}</div>
+      </div>
+      <div class="review-dish">${r.dish}</div>
+      <div class="review-stars">${starsStr(r.rating)}</div>
+      <div class="review-text">"${r.text}"</div>
+      <div class="review-helpful">👍 ${r.helpful} found this helpful</div>
+    </div>`).join('');
+  document.getElementById('reviewCount').textContent=reviews.length+' reviews';
+}
+
+document.querySelectorAll('.star-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    reviewRating=parseInt(btn.dataset.v);
+    document.querySelectorAll('.star-btn').forEach(b=>b.classList.toggle('lit',parseInt(b.dataset.v)<=reviewRating));
+  });
+});
+
+function submitReview(){
+  const name=document.getElementById('rName').value.trim();
+  const dish=document.getElementById('rDish').value.trim();
+  const text=document.getElementById('rText').value.trim();
+  if(!name||!text||!reviewRating){showToast('Please fill in all fields and pick a rating.');return;}
+  reviews.unshift({name,dish:dish||'General',rating:reviewRating,text,date:'Just now',helpful:0,initials:name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()});
+  renderReviews();
+  document.getElementById('rName').value='';
+  document.getElementById('rDish').value='';
+  document.getElementById('rText').value='';
+  document.getElementById('rc').textContent='0/500';
+  reviewRating=0;
+  document.querySelectorAll('.star-btn').forEach(b=>b.classList.remove('lit'));
+  showToast('✅ Thank you for your review!');
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+renderReviews();
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>20));
+</script>
+</body>
+</html>

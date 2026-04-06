@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Flavor Fork — Contact</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ── CONTACT PAGE ── */
+.contact-layout {
+  display: grid; grid-template-columns: 340px 1fr;
+  gap: 28px; padding: 36px 40px 80px;
+  align-items: start;
+}
+
+/* ── LEFT SIDE: INFO CARDS ── */
+.contact-info-col { display: flex; flex-direction: column; gap: 14px; }
+.info-card {
+  background: var(--white); border-radius: var(--radius-lg);
+  padding: 20px; box-shadow: var(--shadow);
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.info-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: var(--gold-pale); color: var(--gold);
+  font-size: 1.05rem; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.info-title { font-family: 'Poppins', sans-serif; font-size: 0.83rem; font-weight: 700; margin-bottom: 4px; }
+.info-text { font-size: 0.8rem; color: var(--charcoal-light); line-height: 1.55; }
+.map-box {
+  background: var(--white); border-radius: var(--radius-lg);
+  overflow: hidden; box-shadow: var(--shadow);
+  height: 210px; position: relative;
+}
+/* Google Maps embed placeholder */
+.map-box iframe { width: 100%; height: 100%; border: none; display: block; }
+.map-placeholder-inner {
+  width: 100%; height: 100%;
+  background: var(--cream-dark);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; color: var(--charcoal-light);
+  font-family: 'Poppins', sans-serif; font-size: 0.82rem; text-align: center;
+}
+.map-placeholder-inner a {
+  font-size: 0.78rem; color: var(--gold); font-weight: 600; text-decoration: none;
+  display: flex; align-items: center; gap: 5px;
+  background: var(--white); padding: 6px 14px; border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+/* ── RIGHT SIDE: FORM ── */
+.contact-form-card {
+  background: var(--white); border-radius: var(--radius-lg);
+  padding: 36px; box-shadow: var(--shadow);
+}
+.contact-form-card h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 26px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { margin-bottom: 14px; }
+
+.toast{position:fixed;bottom:28px;right:28px;z-index:9999;background:var(--charcoal);color:#fff;padding:12px 22px;border-radius:30px;font-size:0.82rem;font-family:'Poppins',sans-serif;box-shadow:var(--shadow-lg);opacity:0;transform:translateY(14px);transition:all .3s ease;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+@media (max-width: 900px) {
+  .contact-layout { grid-template-columns: 1fr; padding: 24px 20px 60px; }
+  .form-row { grid-template-columns: 1fr; }
+  .contact-form-card { padding: 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark"><img src="" alt="Logo" onerror="this.style.display='none';this.parentElement.innerHTML='🍴';"/></div>
+    <span class="nav-logo-name">Flavor Fork</span>
+  </a>
+  <ul class="nav-links">
+    <li><a class="nav-link" href="index.html">Home</a></li>
+    <li><a class="nav-link" href="menu.html">Menu</a></li>
+    <li><a class="nav-link" href="order.html">Order</a></li>
+    <li><a class="nav-link" href="reviews.html">Reviews</a></li>
+    <li><a class="nav-link" href="about.html">About</a></li>
+    <li><a class="nav-link active" href="contact.html">Contact</a></li>
+  </ul>
+  <a class="btn-order-now" href="order.html">🛍 Order Now</a>
+  <button class="hamburger" onclick="document.getElementById('mn').classList.toggle('open')"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-nav" id="mn">
+  <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="menu.html">Menu</a>
+  <a class="nav-link" href="order.html">Order</a><a class="nav-link" href="reviews.html">Reviews</a>
+  <a class="nav-link" href="about.html">About</a><a class="nav-link active" href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div style="padding-top:64px;">
+  <div class="page-hero" style="height:210px;">
+    <div class="page-hero-bg">
+      <!-- YOUR IMAGE: restaurant exterior / entrance at night with warm lighting -->
+      <img src="images/contact.jpg" alt="Contact"/>
+    </div>
+    <div class="page-hero-inner">
+      <p class="page-hero-label">Get in Touch</p>
+      <h1 class="page-hero-title">Contact Us</h1>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT LAYOUT -->
+<div class="contact-layout">
+
+  <!-- LEFT: INFO + MAP -->
+  <div class="contact-info-col">
+    <div class="info-card">
+      <div class="info-icon">📍</div>
+      <div>
+        <div class="info-title">Location</div>
+        <div class="info-text">128 Harvest Lane<br>Brooklyn, NY 11201</div>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🕐</div>
+      <div>
+        <div class="info-title">Hours</div>
+        <div class="info-text">
+          Mon – Thu: 11am – 9pm<br>
+          Fri – Sat: 11am – 10pm<br>
+          Sunday: 12pm – 8pm
+        </div>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">📞</div>
+      <div>
+        <div class="info-title">Phone</div>
+        <div class="info-text"><a href="tel:08089994227" style="color:inherit;text-decoration:none;">(+234) 8089994227</a></div>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">✉️</div>
+      <div>
+        <div class="info-title">Email</div>
+        <div class="info-text"><a href="gmail:sokanmbig@gmail.com" style="color:inherit;text-decoration:none;">sokanmbig@gmail.com</a></div>
+      </div>
+    </div>
+
+    <!-- MAP — paste your Google Maps embed <iframe> src here -->
+    <div class="map-box">
+      <!--
+        TO ADD YOUR MAP:
+        1. Go to maps.google.com
+        2. Search "128 Harvest Lane, Brooklyn, NY 11201"
+        3. Click Share → Embed a map → Copy HTML
+        4. Replace the div below with the <iframe> code
+      -->
+      <div class="map-placeholder-inner">
+        <span style="font-size:1.8rem;">🗺️</span>
+        <span>128 Harvest Lane<br>Brooklyn, NY 11201</span>
+        <a href="https://maps.google.com/?q=128+Harvest+Lane+Brooklyn+NY" target="_blank">📍 Open in Maps ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: MESSAGE FORM -->
+ <div class="contact-form-card">
+  <h2>Send Us a Message</h2>
+  
+  <form action="https://formspree.io/f/mgoprovy" method="POST">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" type="text" name="name" id="cName" placeholder="Jane Doe"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" name="email" id="cEmail" placeholder="jane@example.com"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Subject</label>
+      <input class="form-input" type="text" name="subject" id="cSubject" placeholder="Reservation, Catering, General Inquiry..."/>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Message</label>
+      <textarea class="form-textarea" name="message" id="cMsg" rows="7" maxlength="500"
+        placeholder="Tell us how we can help..."
+        oninput="document.getElementById('cc').textContent=this.value.length+'/500'">
+      </textarea>
+      <div class="char-count" id="cc">0/500</div>
+    </div>
+
+    <button class="btn-submit" type="submit">Send Message</button>
+  </form>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Flavor <span>Fork</span></div>
+      <p class="footer-tagline">Good food, good mood — at Flavor Fork. Seasonal ingredients, culinary craftsmanship, and genuine Brooklyn hospitality since 2018.</p>
+      <div class="footer-socials"><a class="social-btn" href="#">📸</a><a class="social-btn" href="#">👍</a><a class="social-btn" href="#">🐦</a><a class="social-btn" href="#">🎵</a></div>
+    </div>
+    <div class="footer-col"><div class="footer-col-title">Explore</div><ul>
+      <li><a href="index.html">Home</a></li><li><a href="menu.html">Our Menu</a></li>
+      <li><a href="order.html">Order Online</a></li><li><a href="reviews.html">Reviews</a></li>
+      <li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li>
+    </ul></div>
+    <div class="footer-col"><div class="footer-col-title">Hours</div><ul>
+      <li><a href="#">Mon–Thu: 11am–9pm</a></li><li><a href="#">Fri–Sat: 11am–10pm</a></li><li><a href="#">Sunday: 12pm–8pm</a></li>
+    </ul></div>
+    <div class="footer-col"><div class="footer-col-title">Contact</div><ul>
+      <li><a href="#">128 Harvest Lane, Brooklyn NY 11201</a></li>
+      <li><a href="tel:7185550192">(718) 555-0192</a></li>
+      <li><a href="mailto:hello@flavorfork.com">hello@flavorfork.com</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Flavor Fork. All rights reserved.</p>
+    <p style="color:rgba(255,255,255,0.35);">Crafted with ❤️ in Brooklyn</p>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault(); // stop normal form submission
+
+  const form = e.target;
+  const data = new FormData(form);
+
+  try {
+    const response = await fetch('https://formspree.io/f/mgoprovy', {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      // ✅ Success
+      form.reset();
+      document.getElementById('cc').textContent = '0/500';
+      showToast('✅ Message sent successfully!');
+    } else {
+      // ❌ Formspree returned an error
+      showToast('❌ Something went wrong. Please try again.');
+    }
+  } catch (error) {
+    // ❌ Network error
+    showToast('❌ No connection. Please check your internet.');
+  }
+});
+
+
+</script>
+</body>
+</html>
